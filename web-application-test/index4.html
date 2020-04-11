@@ -1,0 +1,123 @@
+<! DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Состояние</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+</head>
+<body>
+<div id="container"></div>
+
+<script type="text/babel">
+    class ExerciseType extends React.Component{
+        render(){
+            return <div>
+                <input type="radio" id="1" name="contact"/>
+                <input type="radio" id="2" name="contact"/>
+            </div>
+        }
+    }
+
+    class Task extends React.Component{
+        constructor(props){
+            super(props);
+
+            this.onChange = this.onChange.bind(this);
+
+            this.state = {
+                isDecided: false
+            }
+        }
+
+        render(){
+            var taskStyle = {
+                display: "inline-block",
+                fontSize: "28px",
+                width: "32px",
+                textAlign: "center"
+            }
+
+            var taskDecidedStyle = {
+                display: "inline-block",
+                fontSize: "28px",
+                width: "32px",
+                textAlign: "center",
+                color: "green"
+            }
+
+            var operatorStyle = {
+                display: "inline-block",
+                fontSize: "28px",
+                margin: "0 2px"
+            }
+
+            var blockStyle = {
+                display: "inline-block",
+                height: "32px",
+                padding: "5px 5px",
+                margin: "5px 5px",
+                border: "1px solid #ccc",
+                fontFamily: "Roboto"
+            }
+
+            var inputStyle = {
+                display: "inline-block",
+                height: "32px",
+                width: "32px",
+                lineHeight: "32px",
+                fontSize:"28px",
+                textAlign: "center",
+                fontFamily: "Roboto"
+            }
+
+            if(this.state.isDecided){
+                return <div style={blockStyle}>
+                    {this.props.first === '?' ? <div style={taskStyle}>{this.props.answer}</div>  : <div style={taskStyle}>{this.props.first}</div>}
+                    <div style={operatorStyle}>{this.props.operator}</div>
+                    {this.props.second === '?' ? <div style={taskStyle}>{this.props.answer}</div> : <div style={taskStyle}>{this.props.second}</div>}
+                    <div style={operatorStyle}>=</div>
+                    {this.props.third === '?' ? <div style={taskDecidedStyle}>{this.props.answer}</div> : <div style={taskDecidedStyle}>{this.props.third}</div>}
+                </div>
+            } else {
+                return <div style={blockStyle}>
+                    {this.props.first === '?' ? <input type="text" style={inputStyle} onChange={this.onChange}/>  : <div style={taskStyle}>{this.props.first}</div>}
+                    <div style={operatorStyle}>{this.props.operator}</div>
+                    {this.props.second === '?' ? <input type="text" style={inputStyle} onChange={this.onChange}/> : <div style={taskStyle}>{this.props.second}</div>}
+                    <div style={operatorStyle}>=</div>
+                    {this.props.third === '?' ? <input type="text" style={inputStyle} onChange={this.onChange}/> : <div style={taskStyle}>{this.props.third}</div>}
+                </div>
+            }
+        }
+
+        onChange(e){
+            var value = e.target.value;
+            if(value === this.props.answer){
+                this.setState({
+                    isDecided : true
+                });
+            }
+        }
+    }
+    ReactDOM.render(
+        <div style={{width: "632px", margin: "0 auto"}}>
+            <Task first="2" second="?" third="4" operator="+" answer="2"/>
+            <Task first="4" second="?" third="6" operator="+" answer="2"/>
+            <Task first="?" second="1" third="5" operator="+" answer="4"/>
+            <Task first="1" second="1" third="?" operator="+" answer="2"/>
+            <Task first="5" second="?" third="8" operator="+" answer="3"/>
+            <Task first="?" second="6" third="10" operator="+" answer="4"/>
+            <Task first="1" second="3" third="?" operator="+" answer="4"/>
+            <Task first="1" second="1" third="?" operator="+" answer="2"/>
+            <Task first="5" second="?" third="6" operator="+" answer="1"/>
+            <Task first="8" second="?" third="10" operator="+" answer="2"/>
+            <Task first="2" second="1" third="?" operator="+" answer="3"/>
+        </div>,
+        document.querySelector("#container")
+    );
+</script>
+</body>
+</html>
